@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NumeralNexus</title>
+  <style>
+    body {
+      background-color: powderblue;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+  
+    #header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+  
+    .box {
+      width: 200px;
+      padding: 20px;
+      background-color: #F6FFF6; /* Updated color */
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  
+    input[type="text"] {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+  
+    button {
+      display: inline-block;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #55D8BE;
+      color: white;
+      text-align: center;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-bottom: 5px; /* Added margin */
+    }
+  
+    button:hover {
+      background-color: #23726e;
+    }
+  
+    p {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+  
+    #win-message {
+      font-weight: bold;
+    }
+  
+    h1 {
+      margin-top: 0;
+      font-size: 24px;
+    }
+  
+    h2 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+  </style>
+  
+  
+</head>
+<body>
+  <div id="header">
+    <h1>Welcome to NumeralNexus By<br> Mr.Mangukiya Ved</h1>
+  </div>
+
+  <div id="name-input">
+    <input type="text" id="name" placeholder="Enter your name">
+    <button onclick="showWelcomeMessage()">Enter</button>
+  </div>
+
+  <div class="container">
+    <div class="box">
+      <h2>Calculator</h2>
+      <input type="text" id="calc-input">
+      <br>
+      <button onclick="clearInput()">CE</button>
+      <button onclick="clearCalculator()">C</button>
+      <br>
+      <button onclick="appendInput('7')">7</button>
+      <button onclick="appendInput('8')">8</button>
+      <button onclick="appendInput('9')">9</button>
+      <button onclick="appendInput('/')">/</button>
+      <br>
+      <button onclick="appendInput('4')">4</button>
+      <button onclick="appendInput('5')">5</button>
+      <button onclick="appendInput('6')">6</button>
+      <button onclick="appendInput('*')">*</button>
+      <br>
+      <button onclick="appendInput('1')">1</button>
+      <button onclick="appendInput('2')">2</button>
+      <button onclick="appendInput('3')">3</button>
+      <button onclick="appendInput('-')">-</button>
+      <br>
+      <button onclick="appendInput('0')">0</button>
+      <button onclick="appendInput('.')">.</button>
+      <button onclick="calculate()">=</button>
+      <button onclick="appendInput('+')">+</button>
+    </div>
+
+    <div class="box">
+      <h2>Number Guessing Game</h2>
+      <p id="guess-result"></p>
+      <input type="text" id="guess-input">
+      <button onclick="checkGuess()">Check</button>
+      <p id="win-message"></p>
+    </div>
+
+    <div class="box">
+      <h2>Percentage Finder</h2>
+      <input type="text" id="percentage-value">
+      /
+      <input type="text" id="total-value">
+      <button onclick="calculatePercentage()">Calculate</button>
+      <p id="percentage-result"></p>
+    </div>
+
+    <div class="box">
+      <h2>Average Finder</h2>
+      <input type="text" id="avg-value1">
+      +
+      <input type="text" id="avg-value2">
+      <button onclick="calculateAverage()">Calculate</button>
+      <p id="average-result"></p>
+    </div>
+
+    <div class="box">
+      <h2>Flip a Coin</h2>
+      <button onclick="flipCoin()">Flip</button>
+      <p id="coin-result"></p>
+    </div>
+  </div>
+
+  <script>
+    // Calculator
+    function clearInput() {
+      document.getElementById('calc-input').value = '';
+    }
+
+    function clearCalculator() {
+      clearInput();
+      document.getElementById('calc-result').innerHTML = '';
+    }
+
+    function appendInput(value) {
+      document.getElementById('calc-input').value += value;
+    }
+
+    function calculate() {
+      var input = document.getElementById('calc-input').value;
+      var result = eval(input);
+      document.getElementById('calc-input').value = result;
+    }
+
+    // Number Guessing Game
+    var targetNumber = Math.floor(Math.random() * 100) + 1;
+var maxTries = 7; // Maximum number of tries allowed
+var currentTry = 1; // Counter for the current try
+
+function checkGuess() {
+  var guess = parseInt(document.getElementById('guess-input').value);
+
+  if (guess === targetNumber) {
+    document.getElementById('guess-result').innerHTML = 'Congratulations! You guessed the correct number.';
+    document.getElementById('win-message').innerHTML = 'You win!';
+    document.getElementById('guess-input').disabled = true; // Disable input after winning
+  } else if (guess < targetNumber) {
+    document.getElementById('guess-result').innerHTML = 'Try higher.';
+  } else {
+    document.getElementById('guess-result').innerHTML = 'Try lower.';
+  }
+
+  document.getElementById('guess-input').value = ''; // Clear the input field
+
+  if (currentTry === maxTries) {
+    document.getElementById('guess-input').disabled = true; // Disable input after reaching the maximum number of tries
+    document.getElementById('win-message').innerHTML = 'Game Over!'; // Display a game over message
+    document.getElementById('guess-result').innerHTML = 'The number was ' + targetNumber + '.'; // Display the correct number
+  } else {
+    currentTry++; // Increment the current try counter
+  }
+}
+
+
+    // Percentage Finder
+    function calculatePercentage() {
+      var value = parseFloat(document.getElementById('percentage-value').value);
+      var total = parseFloat(document.getElementById('total-value').value);
+
+      var percentage = (value / total) * 100;
+      document.getElementById('percentage-result').innerHTML = 'Percentage: ' + percentage + '%';
+    }
+
+    // Average Finder
+    function calculateAverage() {
+      var value1 = parseFloat(document.getElementById('avg-value1').value);
+      var value2 = parseFloat(document.getElementById('avg-value2').value);
+
+      var average = (value1 + value2) / 2;
+      document.getElementById('average-result').innerHTML = 'Average: ' + average;
+    }
+
+    // Flip a Coin
+    function flipCoin() {
+      var result = Math.random() < 0.5 ? 'Heads' : 'Tails';
+      document.getElementById('coin-result').innerHTML = 'Result: ' + result;
+    }
+
+    // Welcome Message
+    function showWelcomeMessage() {
+      var name = document.getElementById('name').value;
+      var date = new Date().toLocaleDateString();
+
+      var welcomeMessage = 'Welcome, ' + name + '! This website is made by Mangukiya Ved on ' + date + '.';
+      document.getElementById('header').innerHTML = '<h1>' + welcomeMessage + '</h1>';
+
+      if (['heet', 'rahil', 'rudra', 'jash','Heet'].includes(name.toLowerCase())) {
+        document.getElementById('header').innerHTML += '<b>Yo nigga!</b>';
+      }
+    }
+  </script>
+</body>
+</html>
